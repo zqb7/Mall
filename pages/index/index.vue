@@ -38,6 +38,22 @@
 				</view>
 			</view>
 		</view>
+		
+		<!-- 新品首发 -->
+		<view class="new-goods">
+			<view class="h-text">
+				<text>周一周四 · 新品首发</text>
+			</view>
+			<view class="b">
+				<view class="new-item" v-for="item in newList">
+					<view class="wrap">
+						<image :src="item.img_src"></image>
+						<text class="name">{{item.name}}</text>
+						<text class="price">{{item.price}}元起</text>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -92,6 +108,28 @@
 						"name": "Coach制造商",
 						"price": "49",
 						"img_src": "http://yanxuan.nosdn.127.net/c933a662bb79b2a47280363e35ab994b.png"
+					}
+				],
+				newList: [
+					{
+						"name": "蔓越莓曲奇 200克",
+						"price": "36",
+						"img_src": "http://yanxuan.nosdn.127.net/767b370d07f3973500db54900bcbd2a7.png"
+					},
+					{
+						"name": "趣味粉彩系列笔记本",
+						"price": "29",
+						"img_src": "http://yanxuan.nosdn.127.net/6c03ca93d8fe404faa266ea86f3f1e43.png"
+					},
+					{
+						"name": "简约知性记忆棉坐垫",
+						"price": "46",
+						"img_src": "http://yanxuan.nosdn.127.net/aa49dfe878becf768eddc4c1636643a6.png"
+					},
+					{
+						"name": "趣味粉彩系列记忆棉坐垫",
+						"price": "49",
+						"img_src": "http://yanxuan.nosdn.127.net/8b30eeb17c831eba08b97bdcb4c46a8e.png"
 					}
 				]
 			}
@@ -190,6 +228,42 @@
 		  overflow: hidden;
 		  border-top: 1upx solid #fff;
 		  margin-left: urpx;
+		}
+	}
+	.new-goods {
+		.b {
+		  width: 750rpx;
+		  height: auto;
+		  overflow: hidden;
+		  padding: 0 31rpx 45rpx 31rpx;
+		}
+		.new-item {
+		  float: left;
+		  width: 302rpx;
+		  margin-top: 10rpx;
+		  margin-left: 21rpx;
+		  margin-right: 21rpx;
+		  uni-image {
+			  width: 302upx;
+			  height: 302upx;
+		  }
+		}
+		.name {
+		  text-align: center;
+		  display: block;
+		  width: 302rpx;
+		  height: 35rpx;
+		  margin-bottom: 14rpx;
+		  overflow: hidden;
+		  font-size: 30rpx;
+		  color: #333;
+		}
+		.price {
+		  display: block;
+		  text-align: center;
+		  line-height: 30rpx;
+		  font-size: 30rpx;
+		  color: #b4282d;
 		}
 	}
 
