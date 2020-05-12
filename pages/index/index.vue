@@ -124,7 +124,7 @@
 					{
 						"name": "简约知性记忆棉坐垫",
 						"price": "46",
-						"img_src": "http://yanxuan.nosdn.127.net/aa49dfe878becf768eddc4c1636643a6.png"
+						"img_src": "http://yanxuan.nosdn.127.net/767b370d07f3973500db54900bcbd2a7.png"
 					},
 					{
 						"name": "趣味粉彩系列记忆棉坐垫",

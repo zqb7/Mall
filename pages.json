@@ -13,7 +13,7 @@
 			}
 		},
 		{
-			"path": "pages/category/index",
+			"path": "pages/catelog/index",
 			"style": {
 				"navigationBarTitleText": "分类"
 			}
@@ -29,6 +29,9 @@
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
+		},
+		{
+			"path": "pages/category/index"
 		}
 	],
 	"globalStyle": {
@@ -61,7 +64,7 @@
 				"text": "专题"
 			},
 			{
-				"pagePath": "pages/category/index",
+				"pagePath": "pages/catelog/index",
 				"iconPath": "static/images/tabbar/ic_menu_sort_nor.png",
 				"selectedIconPath": "static/images/tabbar/ic_menu_sort_pressed.png",
 				"text": "分类"
