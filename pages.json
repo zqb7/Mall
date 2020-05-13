@@ -31,11 +31,14 @@
 			}
 		},
 		{
-			"path": "pages/category/index"
+			"path": "pages/category/index",
+			"style": {
+				"navigationBarTitleText": "商品列表"
+			}
 		}
 	],
 	"globalStyle": {
-		"navigationStyle": "custom",
+		// "navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
