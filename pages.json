@@ -35,8 +35,18 @@
 			"style": {
 				"navigationBarTitleText": "商品列表"
 			}
+		},{
+			"path":"pages/ucenter/order/order"
 		}
-	],
+        ,{
+            "path" : "pages/ucenter/address/address",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/ucenter/coupon/coupon",
+            "style" : {}
+        }
+    ],
 	"globalStyle": {
 		// "navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
