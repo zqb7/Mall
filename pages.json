@@ -3,7 +3,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationBarTitleText": "首页",
+				"navigationStyle": "default"
 			}
 		},
 		{
@@ -15,7 +16,8 @@
 		{
 			"path": "pages/catelog/index",
 			"style": {
-				"navigationBarTitleText": "分类"
+				"navigationBarTitleText": "分类",
+				"navigationStyle": "default"
 			}
 		},
 		{

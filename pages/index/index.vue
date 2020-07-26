@@ -18,10 +18,10 @@
 		
 		<!-- 分类 -->
 		<view class="m-menu">
-			<view class="item" v-for="item in channelList" :key="item.id">
+			<navigator class="item" v-for="item in channelList" :key="item.id" :url="'/pages/category/index'">
 				<image :src="item.icon_url" />
 				<text>{{item.name}}</text>
-			</view>
+			</navigator>
 		</view>
 		
 		<!-- 品牌 -->

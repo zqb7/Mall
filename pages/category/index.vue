@@ -481,7 +481,8 @@
 ]
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			console.log(option.id)
 			this.headerTop = document.getElementsByTagName('uni-page-head')[0].offsetHeight+'px';
 		},
 		methods: {
