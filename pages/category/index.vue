@@ -15,7 +15,7 @@
 					<text class="desc">{{currentCategory.front_name}}</text>
 				</view>
 				<view class="b">
-					<navigator v-for="(item,index) in goodsList" :class="{'item-b': (index+1) % 2 === 0 }" class="item" @click="navToList(item.id)">
+					<navigator v-for="(item,index) in goodsList" :class="{'item-b': (index+1) % 2 === 0 }" class="item" :url="'/pages/goods/index?id=' + item.id">
 						<image class="img" :src="item.list_pic_url" background-size="cover"></image>
 						<text class="name">{{item.name}}</text>
 						<text class="price">￥{{item.retail_price}}</text>
@@ -32,7 +32,8 @@
 			return {
 				headerPosition:"fixed",
 				headerTop:"0px",
-				id: 0,
+				id: 1008002,
+		
 				scrollLeft: 0,
 				scrollTop: 0,
 				scrollHeight: 0,
@@ -43,7 +44,10 @@
 		},
 		onLoad(option) {
 			console.log(option.id)
-			this.headerTop = document.getElementsByTagName('uni-page-head')[0].offsetHeight+'px';
+			if (option.id == undefined){
+				option.id = this.id
+			}
+			// this.headerTop = document.getElementsByTagName('uni-page-head')[0].offsetHeight+'px';
 			this.loadData(option.id)
 			this.getGoods(option.id)
 		},

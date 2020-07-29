@@ -55,6 +55,13 @@
 				"navigationStyle": "default"
 			}
         }
+        ,{
+            "path" : "pages/goods/index",
+            "style" : {
+				"navigationBarTitleText": "商品详情",
+            	"navigationStyle":"default"
+            }
+        }
     ],
 	"globalStyle": {
 		"navigationStyle": "custom",
