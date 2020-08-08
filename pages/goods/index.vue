@@ -46,7 +46,7 @@
 		      <view class="item">
 		        <view class="info">
 		          <view class="user">
-		            <image src="comment.data.avatar"></image>
+		            <image :src="comment.data.avatar"></image>
 		            <text>{{comment.data.nickname}}</text>
 		          </view>
 		          <view class="time">{{comment.data.add_time}}</view>
