@@ -1,7 +1,20 @@
 <script>
+	import {
+		mapState
+	} from 'vuex';
 	export default {
+		methods: {
+			...mapState(['hasLogin'])
+		},
 		onLaunch: function() {
 			console.log('App Launch')
+			uni.getStorage({
+				key:"token",
+				success:(res)=> {
+					this.$store.state.hasLogin = true
+					this.$store.state.token = res.data
+				}
+			})
 		},
 		onShow: function() {
 			console.log('App Show')

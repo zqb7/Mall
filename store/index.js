@@ -25,8 +25,12 @@ const store = new Vuex.Store({
 			    key: 'token',  
 			    data: provider["token"]  
 			})
+			uni.setStorage({
+				key: "hasLogin",
+				data:true
+			})
 			 
-			console.log(state.token);
+			console.log(state.token,state.hasLogin);
 		},
 		logout(state) {
 			state.hasLogin = false;

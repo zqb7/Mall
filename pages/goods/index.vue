@@ -119,7 +119,7 @@
 		      <image class="icon" src="/static/images/goods/icon_close.png"></image>
 		    </view>
 		    <view class="img-info">
-		      <image class="img" :src="gallery[0].img_url"></image>
+		      <!-- <image class="img" :src="gallery[0].img_url"></image> -->
 		      <view class="info">
 		        <view class="c">
 		          <view class="p">价格：￥{{goods.retail_price}}</view>
@@ -147,29 +147,42 @@
 		  </view>
 		</view>
 		
-		<view class="bottom-btn">
-		  <view class="l l-collect" bindtap="addCannelCollect">
-		    <image class="icon" :src="collectBackImage"></image>
-		  </view>
-		  
-		  <view class="l l-cart">
-		    <view class="box">
-		      <text class="cart-count">{{cartGoodsCount}}</text>
-		      <image bindtap="openCartPage" class="icon" src="/static/images/goods/ic_menu_shoping_nor.png"></image>
+		<!-- 底部操作菜单 -->
+		<view class="page-bottom">
+			<navigator url="/pages/index/index" open-type="switchTab" class="p-b-btn">
+				<text class="yticon icon-xiatubiao--copy"></text>
+				<text>首页</text>
+			</navigator>
+			<navigator url="/pages/cart/cart" open-type="switchTab" class="p-b-btn">
+				<text class="yticon icon-gouwuche"></text>
+				<text>购物车</text>
+			</navigator>
+			<view class="p-b-btn" :class="{active: favorite}" @click="toFavorite">
+				<text class="yticon icon-shoucang"></text>
+				<text>收藏</text>
 			</view>
-		  </view>
-		  <view class="c">立即购买</view>
-		  <view class="r" bindtap="addToCart">加入购物车</view>
+			
+			<view class="action-btn-group">
+				<button type="primary" class=" action-btn no-border buy-now-btn" @click="buy">立即购买</button>
+				<button type="primary" class=" action-btn no-border add-cart-btn" @click="addToCart">加入购物车</button>
+			</view>
 		</view>
+		
 	</view>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	import uParse from '@/components/u-parse/u-parse.vue'
 	export default {
 		components: {
-		    uParse
+		    uParse,
 	    },
+		computed:{
+			...mapState(['token'])
+		},
 		data() {
 			return {
 				id: 1147048,
@@ -198,6 +211,7 @@
 			}
 			this.id=option.id
 			this.loadData()
+			console.log(this.hasLogin,this.token)
 		},
 		methods: {
 			loadData(){
@@ -209,6 +223,22 @@
 						this.goods = d["goods"]
 						this.issueList = d["issue"]
 						console.log(this.gallery)
+					}
+				})
+			},
+			addToCart() {
+				uni.request({
+					url:this.api + `/user/cart`,
+					method:"POST",
+					header: {
+						'token': this.token,
+					},
+					data:JSON.stringify({
+						goods_id:this.goods.id,
+						number:1
+					}),
+					success: (res) => {
+						
 					}
 				})
 			}
@@ -942,5 +972,85 @@
   text-align: center;
   line-height: 65upx;
 }
+
+
+	.icon-you{
+		font-size: $font-base + 2upx;
+		color: #888;
+	}
+
+	/* 底部操作菜单 */
+	.page-bottom{
+		position:fixed;
+		left: 30upx;
+		bottom:30upx;
+		z-index: 95;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 690upx;
+		height: 100upx;
+		background: rgba(255,255,255,.9);
+		box-shadow: 0 0 20upx 0 rgba(0,0,0,.5);
+		border-radius: 16upx;
+		
+		.p-b-btn{
+			display:flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			font-size: $font-sm;
+			color: $font-color-base;
+			width: 96upx;
+			height: 80upx;
+			.yticon{
+				font-size: 40upx;
+				line-height: 48upx;
+				color: $font-color-light;
+			}
+			&.active, &.active .yticon{
+				color: $uni-color-primary;
+			}
+			.icon-fenxiang2{
+				font-size: 42upx;
+				transform: translateY(-2upx);
+			}
+			.icon-shoucang{
+				font-size: 46upx;
+			}
+		}
+		.action-btn-group{
+			display: flex;
+			height: 76upx;
+			border-radius: 100px;
+			overflow: hidden;
+			box-shadow: 0 20upx 40upx -16upx #fa436a;
+			box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+			background: linear-gradient(to right, #ffac30,#fa436a,#F56C6C);
+			margin-left: 20upx;
+			position:relative;
+			&:after{
+				content: '';
+				position:absolute;
+				top: 50%;
+				right: 50%;
+				transform: translateY(-50%);
+				height: 28upx;
+				width: 0;
+				border-right: 1px solid rgba(255,255,255,.5);
+			}
+			.action-btn{
+				display:flex;
+				align-items: center;
+				justify-content: center;
+				width: 180upx;
+				height: 100%;
+				font-size: $font-base ;
+				padding: 0;
+				border-radius: 0;
+				background: transparent;
+			}
+		}
+	}
 
 </style>
