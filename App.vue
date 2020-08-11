@@ -25,7 +25,7 @@
 	}
 </script>
 
-<style>
+<style lang='scss'>
 	/*每个页面公共css */
 	@import url("@/components/u-parse/u-parse.css");
 	@font-face {
@@ -34,6 +34,7 @@
 		font-style: normal;
 		src: url('https://at.alicdn.com/t/font_1078604_w4kpxh0rafi.ttf') format('truetype');
 	}
+	
 	.yticon {
 		font-family: "yticon" !important;
 		font-size: 16px;
@@ -325,6 +326,10 @@
 	.icon-dianzan-ash:before {
 		content: "\e617";
 	}
+	
+	
+	
+	
 	
 	view,
 	scroll-view,

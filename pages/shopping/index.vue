@@ -2,7 +2,7 @@
 	<view class="container">
 		<!-- 空白页 -->
 		<view v-if="!hasLogin || empty===true" class="empty">
-			<image src="/static/emptyCart.jpg" mode="aspectFit"></image>
+			<image src="/static/images/shopping/emptyCart.jpg" mode="aspectFit"></image>
 			<view v-if="hasLogin" class="empty-tips">
 				空空如也
 				<navigator class="navigator" v-if="hasLogin" url="../index/index" open-type="switchTab">随便逛逛></navigator>
@@ -57,7 +57,7 @@
 			<view class="action-section">
 				<view class="checkbox">
 					<image 
-						:src="allChecked?'/static/selected.png':'/static/select.png'" 
+						:src="allChecked?'/static/images/shopping/selected.png':'/static/images/shopping/select.png'" 
 						mode="aspectFit"
 						@click="check('all')"
 					></image>
@@ -67,11 +67,11 @@
 				</view>
 				<view class="total-box">
 					<text class="price">¥{{total}}</text>
-					<text class="coupon">
+					<!-- <text class="coupon">
 						已优惠
 						<text>74.35</text>
 						元
-					</text>
+					</text> -->
 				</view>
 				<button type="primary" class="no-border confirm-btn" @click="createOrder">去结算</button>
 			</view>
@@ -157,6 +157,19 @@
 					})
 					this.allChecked = checked;
 				}
+				let id = this.cartList[index].id
+				uni.request({
+					url:this.api + `/user/cart/${id}/checked`,
+					method:"PUT",
+					header: {
+						'token': this.token,
+					},
+					data:JSON.stringify({
+						"checked":this.cartList[index].checked
+					}),
+					success: (res) => {
+					}
+				})
 				this.calcTotal(type);
 			},
 			//数量
@@ -173,6 +186,16 @@
 				this.cartList.splice(index, 1);
 				this.calcTotal();
 				uni.hideLoading();
+				uni.request({
+					url:this.api + `/user/cart/${id}`,
+					method:"DELETE",
+					header: {
+						'token': this.token,
+					},
+					success: (res) => {
+						
+					}
+				})
 			},
 			//清空
 			clearCart(){
@@ -180,7 +203,16 @@
 					content: '清空购物车？',
 					success: (e)=>{
 						if(e.confirm){
-							this.cartList = [];
+							uni.request({
+								url:this.api + `/user/cart`,
+								method:"DELETE",
+								header: {
+									'token': this.token,
+								},
+								success: (res) => {
+									this.cartList = [];
+								}
+							})
 						}
 					}
 				})

@@ -117,7 +117,7 @@
 		    </view>
 		  </view>
 		
-	    <view class="good-grid" v-for="item in floorGoodsList" :key="item.id">
+	    <view class="good-grid" v-for="(item,key) in floorGoodsList" :key="item.id">
 		    <view class="h">
 		      <view>
 		        <text>{{item.name}}</text>

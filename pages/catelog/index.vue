@@ -8,7 +8,7 @@
 		  </view>
 		  <view class="catalog">
 			<scroll-view class="nav" scroll-y>
-				<view v-for="item in navList" :class="{active: item.id === currentCategory.id}" class="item"  @click="tabtap(item)">{{item.name}}</view>
+				<view v-for="(item,key) in navList" :class="{active: item.id === currentCategory.id}" class="item"  @click="tabtap(item)">{{item.name}}</view>
 			</scroll-view>
 			
 			<scroll-view scroll-y class="cate" style="height: 1024upx;">
