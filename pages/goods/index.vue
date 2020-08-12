@@ -153,7 +153,7 @@
 				<text class="yticon icon-xiatubiao--copy"></text>
 				<text>首页</text>
 			</navigator>
-			<navigator url="/pages/cart/cart" open-type="switchTab" class="p-b-btn">
+			<navigator url="/pages/shopping/index" open-type="switchTab" class="p-b-btn">
 				<text class="yticon icon-gouwuche"></text>
 				<text>购物车</text>
 			</navigator>
@@ -167,7 +167,9 @@
 				<button type="primary" class=" action-btn no-border add-cart-btn" @click="addToCart">加入购物车</button>
 			</view>
 		</view>
-		
+		<uni-popup ref="popupMessage" type="message" @change="change">
+			<uni-popup-message type="succes" :message="message" :duration="2000"></uni-popup-message>
+		</uni-popup>
 	</view>
 </template>
 
@@ -176,9 +178,11 @@
 		mapState
 	} from 'vuex'
 	import uParse from '@/components/u-parse/u-parse.vue'
+	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	export default {
 		components: {
 		    uParse,
+			uniPopupMessage
 	    },
 		computed:{
 			...mapState(['token'])
@@ -202,7 +206,8 @@
 				openAttr: false,
 				noCollectImage: "/static/images/goods/icon_collect.png",
 				hasCollectImage: "/static/images/goods/icon_collect_checked.png",
-				collectBackImage: "/static/images/goods/icon_collect.png"
+				collectBackImage: "/static/images/goods/icon_collect.png",
+				message: '加入成功',
 			};
 		},
 		onLoad(option) {
@@ -238,7 +243,12 @@
 						number:1
 					}),
 					success: (res) => {
-						
+						this.message = '加入成功'
+						this.$refs.popupMessage.open()
+					},
+					fail: (res) => {
+						this.message = '加入失败，请稍后再试'
+						this.$refs.popupMessage.open()
 					}
 				})
 			}
