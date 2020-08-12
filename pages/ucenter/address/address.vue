@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 	    <view class="address-list" v-if="addressList.length > 0 ">
-	        <view class="item" v-for="item in addressList">
+	        <view class="item" v-for="(item,key) in addressList" :key="key">
 	            <view class="l">
 	                <view class="name">{{item.name}}</view>
 	                <view class="default" v-if="item.is_default">默认</view>

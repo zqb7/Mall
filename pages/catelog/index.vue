@@ -8,7 +8,7 @@
 		  </view>
 		  <view class="catalog">
 			<scroll-view class="nav" scroll-y>
-				<view v-for="(item,key) in navList" :class="{active: item.id === currentCategory.id}" class="item"  @click="tabtap(item)">{{item.name}}</view>
+				<view v-for="(item,key) in navList" :key="key" :class="{active: item.id === currentCategory.id}" class="item"  @click="tabtap(item)">{{item.name}}</view>
 			</scroll-view>
 			
 			<scroll-view scroll-y class="cate" style="height: 1024upx;">
@@ -22,7 +22,7 @@
 					<text class="line"></text>
 				</view>
 				<view class="bd">
-					<navigator v-for="(item, index) in currentCategory.sub_category_list" class="item" :class="{last: (index+1) %3 ===0}" :url="'/pages/category/index?id=' + item.id">
+					<navigator v-for="(item, index) in currentCategory.sub_category_list" :key="index" class="item" :class="{last: (index+1) %3 ===0}" :url="'/pages/category/index?id=' + item.id">
 						<image class="icon" :src="item.wap_banner_url"></image>
 						<text class="txt">{{item.name}}</text>
 					</navigator>

@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 	    <scroll-view class="topic-list" scroll-y="true" :scroll-top="scrollTop">
-	        <navigator class="item" v-for="(item, key) in topicList" :url="'../topicDetail/topicDetail?id=' + item.id">
+	        <navigator class="item" v-for="(item, key) in topicList" :key="key" :url="'../topicDetail/topicDetail?id=' + item.id">
 	            <image class="img" :src="item.scene_pic_url"></image>
 	            <view class="info">
 	                <text class="title">{{item.title}}</text>

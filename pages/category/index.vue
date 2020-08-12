@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="cate-nav" :style="{position:headerPosition,top:headerTop}">
 			<scroll-view scroll-x class="cate-nav-body" style="width: 750upx;" :scroll-left="scrollLeft">
-				<view   v-for="(item,key) in navList"  :class="{active: id ===item.id}" class="item"  @click="switchCate(item)">
+				<view   v-for="(item,key) in navList" :key=key :class="{active: id ===item.id}" class="item"  @click="switchCate(item)">
 					<view class="name">{{item.name}}</view>
 				</view>
 			</scroll-view>
@@ -15,7 +15,7 @@
 					<text class="desc">{{currentCategory.front_name}}</text>
 				</view>
 				<view class="b">
-					<navigator v-for="(item,index) in goodsList" :class="{'item-b': (index+1) % 2 === 0 }" class="item" :url="'/pages/goods/index?id=' + item.id">
+					<navigator v-for="(item,index) in goodsList" :key="index" :class="{'item-b': (index+1) % 2 === 0 }" class="item" :url="'/pages/goods/index?id=' + item.id">
 						<image class="img" :src="item.list_pic_url" background-size="cover"></image>
 						<text class="name">{{item.name}}</text>
 						<text class="price">￥{{item.retail_price}}</text>

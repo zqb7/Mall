@@ -1,12 +1,12 @@
 <template>
 	<view class="container">
 	    <view class="orders">
-	        <navigator class="order" v-for="(item, key) in orderList">
+	        <navigator class="order" v-for="(item, key) in orderList" :key="key">
 	            <view class="h">
 	                <view class="l">订单编号：{{item.order_sn}}</view>
 	                <view class="r">{{item.order_status_text}}</view>
 	            </view>
-	            <view class="goods" v-for="(gitem, _) in item.goodsList">
+	            <view class="goods" v-for="(gitem, _) in item.goodsList" :key="_">
 	                <view class="img">
 	                    <image :src="gitem.list_pic_url"></image>
 	                </view>

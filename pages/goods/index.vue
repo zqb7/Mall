@@ -2,7 +2,7 @@
 	<view>
 		<view class="container">
 		  <swiper class="goodsimgs" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
-		    <swiper-item v-for="(item,key) in gallery">
+		    <swiper-item v-for="(item,key) in gallery" :key="key">
 		      <image :src="item.img_url" background-size="cover"></image>
 		    </swiper-item>
 		  </swiper>
@@ -55,7 +55,7 @@
 		          {{comment.data.content}}
 		        </view>
 		        <view class="imgs" v-if="comment.data.pic_list.length > 0">
-		          <image class="img" v-for="(item, key) in comment.data.pic_list"  src="item.pic_url"></image>
+		          <image class="img" v-for="(item, key) in comment.data.pic_list" :key="key"  src="item.pic_url"></image>
 		        </view>
 		        <!-- <view class="spec">白色 2件</view> -->
 		      </view>
@@ -65,7 +65,7 @@
 		  <view class="goods-attr">
 		    <view class="t">商品参数</view>
 		    <view class="l">
-		      <view class="item" v-for="(item,key) in attribute">
+		      <view class="item" v-for="(item,key) in attribute" :key="key">
 		        <text class="left">{{item.name}}</text>
 		        <text class="right">{{item.value}}</text>
 		      </view>
@@ -84,7 +84,7 @@
 		    </view>
 			
 		    <view class="b">
-		      <view class="item" v-for="(item,key) in issueList">
+		      <view class="item" v-for="(item,key) in issueList" :key="key">
 		        <view class="question-box">
 		          <text class="spot"></text>
 		          <text class="question">{{item.question}}</text>
