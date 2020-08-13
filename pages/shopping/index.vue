@@ -129,6 +129,7 @@
 					},
 					success: (res) => {
 						this.cartList = res.data
+						this.calcTotal()
 					}
 				})
 			},
@@ -171,6 +172,7 @@
 					}
 				})
 				this.calcTotal(type);
+				console.log(type)
 			},
 			//数量
 			numberChange(data){

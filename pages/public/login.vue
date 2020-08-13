@@ -72,20 +72,16 @@
 				uni.navigateBack();
 			},
 			toRegist(){
-				this.$api.msg('去注册');
+				this.$msg("去注册");
 			},
 			async toLogin(){
 				this.logining = true;
 				const {user, password} = this;
-				/* 数据验证模块
-				if(!this.$api.match({
-					mobile,
-					password
-				})){
-					this.logining = false;
-					return;
+				if (user == "" || password == ""){
+					this.$msg("用户名或密码不能为空")
+					this.logining = false
+					return
 				}
-				*/
 			   uni.request({
 			   	url:this.api + "/auth/login",
 				method: "POST",
@@ -95,7 +91,14 @@
 				}),
 				success: (res) => {
 					this.login(res.data);
-					uni.navigateBack();
+					if (res.statusCode == 200){
+						uni.navigateBack();	
+					} else{
+						this.$msg("用户名或密码错误")
+					}
+				},
+				fail: (res) => {
+					this.$msg("登录失败")
 				}
 			   })
 			}
