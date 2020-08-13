@@ -23,7 +23,8 @@
 		{
 			"path": "pages/shopping/index",
 			"style": {
-				"navigationBarTitleText": "购物车"
+				"navigationBarTitleText": "购物车",
+				"enablePullDownRefresh":true
 			}
 		},
 		{
@@ -97,6 +98,13 @@
 					"animationType": "slide-in-bottom"
 				}
             }
+        }
+        ,{
+            "path" : "pages/ucenter/setting/index",
+            "style" : {
+				"navigationBarTitleText": "设置",
+				"navigationStyle":"default"
+			}
         }
     ],
 	"globalStyle": {

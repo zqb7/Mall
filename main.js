@@ -21,9 +21,24 @@ const msg = (title, duration=1500, mask=false, icon='none')=>{
 	});
 }
 
+const checkHttpCode = (code) => {
+	switch (code){
+		case 200:
+			break;
+		case 401:
+			uni.navigateTo({
+				url:"/pages/public/login",
+				success: (res) => {
+				}
+			})
+			break;
+	}
+}
+
 App.mpType = 'app'
 Vue.prototype.$store = store;
 Vue.prototype.$msg = msg;
+Vue.prototype.$checkHttpCode = checkHttpCode;
 
 const app = new Vue({
     ...App

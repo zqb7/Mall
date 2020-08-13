@@ -99,6 +99,10 @@
 		onLoad(){
 			this.loadData();
 		},
+		onPullDownRefresh:function(){
+			this.loadData()
+			uni.stopPullDownRefresh()
+		},
 		watch:{
 			//显示空白页
 			cartList(e){
@@ -128,8 +132,14 @@
 						'token': this.token,
 					},
 					success: (res) => {
-						this.cartList = res.data
-						this.calcTotal()
+						if (res.statusCode == 200 ){
+							this.cartList = res.data
+							this.calcTotal()
+						} else {
+							this.$checkHttpCode(res.statusCode)
+						}
+					},
+					fail: (res) => {
 					}
 				})
 			},
