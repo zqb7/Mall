@@ -4,13 +4,15 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页",
-				"navigationStyle": "default"
+				"navigationStyle": "default",
+				"enablePullDownRefresh":true
 			}
 		},
 		{
 			"path": "pages/top/index",
 			"style": {
-				"navigationBarTitleText": "专题"
+				"navigationBarTitleText": "专题",
+				"enablePullDownRefresh":true
 			}
 		},
 		{

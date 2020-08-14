@@ -37,6 +37,10 @@
 				this.showPage = true
 			}
 		},
+		onPullDownRefresh:function(){
+			this.loadData(this.page,this.size)
+			uni.stopPullDownRefresh()
+		},
 		methods: {
 			async loadData(page,size) {
 				uni.request({

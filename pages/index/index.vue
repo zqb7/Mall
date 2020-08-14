@@ -103,7 +103,7 @@
 		    </view>
 		    <view class="b">
 		      <scroll-view scroll-x="true" class="list">
-		        <view class="item" v-for="item in topics"" :key="item.id">
+		        <view class="item" v-for="item in topics" :key="item.id">
 		          <navigator url="../topicDetail/topicDetail?id=item.id">
 		            <image class="img" :src="item.scene_pic_url" background-size="cover"></image>
 		            <view class="np">
@@ -158,6 +158,10 @@
 		},
 		onLoad() {
 			this.loadData()
+		},
+		onPullDownRefresh:function(){
+			this.loadData()
+			uni.stopPullDownRefresh()
 		},
 		methods: {
 			async loadData() {
