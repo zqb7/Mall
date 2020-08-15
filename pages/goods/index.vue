@@ -66,7 +66,7 @@
 		    <view class="t">商品参数</view>
 		    <view class="l">
 		      <view class="item" v-for="(item,key) in attribute" :key="key">
-		        <text class="left">{{item.name}}</text>
+		        <text class="left">{{item.key}}</text>
 		        <text class="right">{{item.value}}</text>
 		      </view>
 		    </view>
@@ -226,6 +226,7 @@
 						this.gallery = d["gallery"]
 						this.goods = d["goods"]
 						this.issueList = d["issue"]
+						this.attribute = d["attribute"]
 						console.log(this.gallery)
 					}
 				})
