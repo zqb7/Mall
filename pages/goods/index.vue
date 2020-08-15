@@ -216,7 +216,6 @@
 			}
 			this.id=option.id
 			this.loadData()
-			console.log(this.hasLogin,this.token)
 		},
 		methods: {
 			loadData(){

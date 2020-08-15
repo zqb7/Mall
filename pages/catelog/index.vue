@@ -38,7 +38,7 @@
 		data() {
 			return {
 				offsetHeight:0,
-				goodsCount: 100,
+				goodsCount: 0,
 				navList: [],
 				goodsList: [],
 				id: 0,
@@ -73,6 +73,14 @@
 						let d = res["data"]
 						this.navList = d["category_list"]
 						this.currentCategory = d["current_category"]
+					}
+				})
+				uni.request({
+					url:this.api+ "/count/goods",
+					success: (res) => {
+						if (res.data.hasOwnProperty("goods_count")){
+							this.goodsCount = res.data.goods_count
+						}
 					}
 				})
 			}

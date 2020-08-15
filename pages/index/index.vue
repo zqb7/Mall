@@ -58,7 +58,7 @@
 		    </view>
 		    <view class="b">
 		      <view class="item" v-for="item in newGoods" :key="item.id">
-		        <navigator url="../goods/goods?id=item.id">
+		        <navigator :url="'/pages/goods/index?id=' + item.id">
 		          <image class="img" :src="item.list_pic_url" background-size="cover"></image>
 		          <text class="name">{{item.name}}</text>
 		          <text class="price">￥{{item.retail_price}}</text>
@@ -125,7 +125,7 @@
 		    </view>
 		    <view class="b">
 		      <block v-for="iitem in item.goods_list">
-		        <navigator url="../goods/goods?id=iitem.id" class="item">
+		        <navigator :url="'/pages/goods/index?id=' + iitem.id" class="item">
 		          <image class="img" :src="iitem.list_pic_url" background-size="cover"></image>
 		          <view class="name">{{iitem.name}}</view>
 		          <view class="price">￥{{iitem.retail_price}}</view>
