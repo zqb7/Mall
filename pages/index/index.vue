@@ -145,7 +145,7 @@
 				autoplay: true,
 				interval: 2000,
 				duration: 500,
-				goodsCount: 100,
+				goodsCount: 0,
 				adList:[],
 				channelList: [],
 				brandList: [],
@@ -177,6 +177,14 @@
 						this.hotGoods = d["hot_goods_list"]
 						this.topics = d["topic_list"]
 						this.floorGoodsList = d["floor_list"]
+					}
+				})
+				uni.request({
+					url:this.api+ "/count/goods",
+					success: (res) => {
+						if (res.data.hasOwnProperty("goods_count")){
+							this.goodsCount = res.data.goods_count
+						}
 					}
 				})
 			}

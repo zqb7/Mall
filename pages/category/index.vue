@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view class="cate-nav" :style="{position:headerPosition,top:headerTop}">
+		<view class="cate-nav">
 			<scroll-view scroll-x class="cate-nav-body" style="width: 750upx;" :scroll-left="scrollLeft">
 				<view   v-for="(item,key) in navList" :key=key :class="{active: id ===item.id}" class="item"  @click="switchCate(item)">
 					<view class="name">{{item.name}}</view>
@@ -30,8 +30,8 @@
 	export default {
 		data() {
 			return {
-				headerPosition:"fixed",
-				headerTop:"0px",
+				// headerPosition:"fixed",
+				// headerTop:"10px",
 				id: 1008002,
 		
 				scrollLeft: 0,
@@ -89,12 +89,6 @@
 <style lang="scss">
 	.content{
 		background: #f9f9f9;
-	}
-	.cate-nav{
-		position: fixed;
-		left:0;
-		top:0;
-		z-index: 1000;
 	}
 
 	.cate-nav-body{
