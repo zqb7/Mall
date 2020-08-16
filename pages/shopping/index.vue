@@ -187,6 +187,18 @@
 			//数量
 			numberChange(data){
 				this.cartList[data.index].number = data.number;
+				uni.request({
+					url: this.api + `/user/cart/${this.cartList[data.index].id}`,
+					method:"PUT",
+					header: {
+						'token': this.token,
+					},
+					data:JSON.stringify({
+						"number":data.number
+					}),
+					success: (res) => {
+					}
+				})
 				this.calcTotal();
 			},
 			//删除
