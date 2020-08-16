@@ -35,8 +35,8 @@
 							></view>
 						</view>
 						<view class="item-right">
-							<text class="clamp title">{{item.title}}</text>
-							<text class="attr">{{item.attr_val}}</text>
+							<text class="clamp title">{{item.goods_name}}</text>
+							<text class="attr">{{item.goods_specification_value}}</text>
 							<text class="price">¥{{item.retail_price}}</text>
 							<uni-number-box 
 								class="step"

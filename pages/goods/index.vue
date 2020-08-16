@@ -23,7 +23,7 @@
 		      </view>
 		    </view>
 		  </view>
-		  <view class="section-nav section-attr" bindtap="switchAttrPop">
+		  <view class="section-nav section-attr" @click="toggleSpec">
 		    <view class="t">请选择规格数量</view>
 		    <image class="i" src="/static/images/goods/address_right.png" background-size="cover"></image>
 		  </view>
@@ -124,10 +124,10 @@
 			<view class="mask"></view>
 			<view class="layer attr-content" @click.stop="stopPrevent">
 				<view class="a-t">
-					<image src="https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg"></image>
+					<image :src="goods.list_pic_url"></image>
 					<view class="right">
-						<text class="price">¥328.00</text>
-						<text class="stock">库存：188件</text>
+						<text class="price">¥{{selectedProduct.retail_price}}</text>
+						<text class="stock">库存：{{selectedProduct.goods_number}}件</text>
 						<view class="selected">
 							已选：
 							<text class="selected-text" v-for="(sItem, sIndex) in specSelected" :key="sIndex">
@@ -218,6 +218,7 @@
 				specClass: 'none',
 				specSelected: [],
 				favorite: true,
+				selectedProduct: {},
 			};
 		},
 		onLoad(option) {
@@ -238,11 +239,17 @@
 						this.issueList = d["issue"]
 						this.attribute = d["attribute"]
 						this.specificationList = d["specification_list"]
+						this.productList = d["product_list"]
 					}
 				})
 			},
 			addToCart() {
 				if (this.specSelected.length === 0) {
+					this.toggleSpec()
+					return
+				}
+				if (this.specSelected.length !== this.specificationList.length) {
+					this.$msg("请选择规格")
 					this.toggleSpec()
 					return
 				}
@@ -254,11 +261,20 @@
 					},
 					data:JSON.stringify({
 						goods_id:this.goods.id,
-						number:1
+						number:1,
+						"goods_sn": this.selectedProduct.goods_sn,
+						"goods_name": this.goods.name,
+						"goods_pic": this.selectedProduct.goods_pic,
+						"goods_specification_value": this.selectedProduct.goods_specification_value,
+						"goods_specification_ids": this.selectedProduct.ids,
 					}),
 					success: (res) => {
-						this.message = '加入成功'
-						this.$refs.popupMessage.open()
+						if (res.statusCode == 200){
+							this.message = '加入成功'
+							this.$refs.popupMessage.open()
+						}else {
+							console.log(res.data)
+						}
 					},
 					fail: (res) => {
 						this.message = '加入失败，请稍后再试'
@@ -290,14 +306,34 @@
 				//存储已选择
 				this.specSelected = []; 
 				list = this.specificationList
+				let goodsSpecificationValue = ""
+				let goodsPic = ""
 				list.forEach(item=>{ 
 					item.value_list.forEach(item2=>{
 						if(item2.selected === true){
 							this.specSelected.push(item2); 
+							goodsSpecificationValue += item2.value + " "
+							if (item2.pic_url.trim() !== ""){
+								goodsPic = item2.pic_url
+							}
 						}
 					})
  
-				})			
+				})	
+				this.productList.forEach(item=>{
+					let ids = ""
+					this.specSelected.forEach(item2=>{
+						ids += `${item2.id}_`
+					})
+					ids = ids.substring(0, ids.lastIndexOf("_"))
+					if (item.goods_specification_ids === ids || item.goods_specification_ids == ids.split('').reverse().join('')){
+						this.selectedProduct = item
+						this.$set(this.selectedProduct, 'goods_specification_value',goodsSpecificationValue)
+						this.$set(this.selectedProduct, 'ids',ids)
+						this.$set(this.selectedProduct, 'goods_pic',goodsPic)
+						
+					}
+				})
 			},
 			stopPrevent(){
 				
