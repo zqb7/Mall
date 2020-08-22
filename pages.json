@@ -75,6 +75,14 @@
 		},{
             "path" : "pages/ucenter/address/address",
             "style" : {
+				"navigationStyle": "default",
+				"enablePullDownRefresh":true,
+				"navigationBarTitleText": "我的地址"
+				
+			}
+        },{
+            "path" : "pages/ucenter/address/addressManage",
+            "style" : {
 				"navigationStyle": "default"
 			}
         }
@@ -114,7 +122,20 @@
 				"navigationBarTitleText": "商品搜索",
 				"navigationStyle":"default"
 			}
-        }
+        },{
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "我的订单",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},{
+			"path": "pages/order/createOrder",
+			"style": {
+				"navigationBarTitleText": "创建订单"
+			}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

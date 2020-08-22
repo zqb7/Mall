@@ -1,176 +1,155 @@
 <template>
-	<view class="container">
-	    <view class="address-list" v-if="addressList.length > 0 ">
-	        <view class="item" v-for="(item,key) in addressList" :key="key">
-	            <view class="l">
-	                <view class="name">{{item.name}}</view>
-	                <view class="default" v-if="item.is_default">默认</view>
-	            </view>
-	            <view class="c">
-	                <view class="mobile">{{item.mobile}}</view>
-	                <view class="address">{{item.full_region + item.address}}</view>
-	            </view>
-	            <view class="r">
-	                <image catchtap="deleteAddress"  class="del" src="/static/images/ucenter/del-address.png"></image>
-	            </view>
-	        </view>
-	    </view>
-	    <view class="empty-view" v-if="addressList.length <= 0">
-	      <image class="icon" src="http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/noAddress-26d570cefa.png"></image>
-	      <text class="text">收货地址在哪里</text>
-	    </view>
-	    <view class="add-address">新建</view>
+	<view class="content b-t">
+		<view class="list b-b" v-for="(item, index) in addressList" :key="index" @click="checkAddress(item)">
+			<view class="wrapper">
+				<view class="address-box">
+					<text v-if="item.is_default" class="tag">默认</text>
+					<text class="address">{{item.country}} {{item.province}} {{item.city}} {{item.district}} {{item.address}}</text>
+				</view>
+				<view class="u-box">
+					<text class="name">{{item.consignee}}</text>
+					<text class="mobile">{{item.mobile}}</text>
+				</view>
+			</view>
+			<text class="yticon icon-bianji" @click.stop="addAddress('edit', item)"></text>
+		</view>
+		
+		<button class="add-btn" @click="addAddress('add')">新增地址</button>
 	</view>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				addressList: [
-					{
-						id:1,
-						name: "test",
-						is_default: true,
-						mobile: 1561111111,
-						full_region: 1,
-						adress: "address"
-					}
-				]
+				source: 0,
+				addressList: []
 			}
 		},
+		computed:{
+			...mapState(['token'])
+		},
+		onLoad(option){
+			console.log(option.source);
+			this.source = option.source;
+			this.loadData()
+		},
+		onPullDownRefresh:function(){
+			this.loadData()
+			uni.stopPullDownRefresh()
+		},
 		methods: {
-			
+			//选择地址
+			checkAddress(item){
+				if(this.source == 1){
+					//this.$api.prePage()获取上一页实例，在App.vue定义
+					this.$api.prePage().addressData = item;
+					uni.navigateBack()
+				}
+			},
+			addAddress(type, item){
+				uni.navigateTo({
+					url: `/pages/ucenter/address/addressManage?type=${type}&data=${JSON.stringify(item)}`
+				})
+			},
+			//添加或修改成功之后回调
+			refreshList(data, type){
+				//添加或修改后事件，这里直接在最前面添加了一条数据，实际应用中直接刷新地址列表即可
+				this.addressList.unshift(data);
+				
+				console.log(data, type);
+			},
+			loadData(){
+				uni.request({
+					url:this.api + "/user/address",
+					method:"GET",
+					header:{
+						'token': this.token,
+					},
+					success: (res) => {
+						if  (res.statusCode == 200 ){
+							this.addressList = res.data
+						}
+						this.$checkHttpCode(res.statusCode)
+					}
+				})
+			}
 		}
 	}
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 	page{
-	    height: 100%;
-	    width: 100%;
-	    background: #f4f4f4;
+		padding-bottom: 120upx;
+	}
+	.content{
+		position: relative;
+	}
+	.list{
+		display: flex;
+		align-items: center;
+		padding: 20upx 30upx;;
+		background: #fff;
+		position: relative;
+	}
+	.wrapper{
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+	}
+	.address-box{
+		display: flex;
+		align-items: center;
+		.tag{
+			font-size: 24upx;
+			color: $base-color;
+			margin-right: 10upx;
+			background: #fffafb;
+			border: 1px solid #ffb4c7;
+			border-radius: 4upx;
+			padding: 4upx 10upx;
+			line-height: 1;
+		}
+		.address{
+			font-size: 30upx;
+			color: $font-color-dark;
+		}
+	}
+	.u-box{
+		font-size: 28upx;
+		color: $font-color-light;
+		margin-top: 16upx;
+		.name{
+			margin-right: 30upx;
+		}
+	}
+	.icon-bianji{
+		display: flex;
+		align-items: center;
+		height: 80upx;
+		font-size: 40upx;
+		color: $font-color-light;
+		padding-left: 30upx;
 	}
 	
-	.container{
-	  height: 100%;
-	  width: 100%;
-	}
-	
-	.address-list{
-	    padding-left: 31.25upx;
-	    background: #fff url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-bg-bd30f2bfeb.png) 0 0 repeat-x;
-	    background-size: auto 10.5upx;
-	    margin-bottom: 90upx;
-	}
-	
-	.address-list .item{
-	    height: 156.55upx;
-	    align-items: center;
-	    display: flex;
-	    border-bottom: 1upx solid #DCD9D9;
-	}
-	
-	.address-list .l{
-	    width: 125upx;
-	    height: 80upx;
-	    overflow: hidden;
-	}
-	
-	.address-list .name{
-	    width: 125upx;
-	    height: 43upx;
-	    font-size: 29upx;
-	    color: #333;
-	    margin-bottom: 5.2upx;
-	        text-overflow: ellipsis;
-	    white-space: nowrap;
-	    overflow: hidden;
-	}
-	
-	.address-list .default{
-	    width: 62.5upx;
-	    height: 33upx;
-	    line-height: 28upx;
-	    text-align: center;
-	    font-size: 20upx;
-	    color: #b4282d;
-	    border: 1upx solid #b4282d;
-	    visibility: visible;
-	}
-	
-	
-	.address-list .c{
-	    flex: 1;
-	    height: auto;
-	    overflow: hidden;
-	}
-	
-	.address-list .mobile{
-	
-	    height: 29upx;
-	    font-size: 29upx;
-	    line-height: 29upx;
-	    overflow: hidden;
-	    color: #333;
-	    margin-bottom: 6.25upx;
-	}
-	
-	.address-list .address{
-	    height: 37upx;
-	    font-size: 25upx;
-	    line-height: 37upx;
-	    overflow: hidden;
-	    color: #666;
-	}
-	
-	.address-list .r{
-	    width: 52upx;
-	    height: auto;
-	    overflow: hidden;
-	    margin-right: 16.5upx;
-	}
-	
-	.address-list .del{
-	    display: block;
-	    width: 52upx;
-	    height: 52upx;
-	}
-	
-	.add-address{
-	    background: #b4282d;
-	    text-align: center;
-	    width: 100%;
-	    height: 99upx;
-	    line-height: 99upx;
-	    position: fixed;
-	    border-radius: 0;
-	    border: none;
-	    color: #fff;
-	    font-size: 29upx;
-	    bottom: 0;
-	    left:0;
-	}
-	
-	.empty-view{
-	  height: 100%;
-	  width: 100%;
-	  display: flex;
-	  flex-direction: column;
-	  align-items: center;
-	  justify-content: center;
-	}
-	
-	.empty-view .icon{
-	  height: 248upx;
-	  width: 258upx;
-	  margin-bottom: 10upx;
-	}
-	
-	.empty-view .text{
-	  width: auto;
-	  font-size: 28upx;
-	  line-height: 35upx;
-	  color: #999;
+	.add-btn{
+		position: fixed;
+		left: 30upx;
+		right: 30upx;
+		bottom: 16upx;
+		z-index: 95;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 690upx;
+		height: 80upx;
+		font-size: 32upx;
+		color: #fff;
+		background-color: $base-color;
+		border-radius: 10upx;
+		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);		
 	}
 </style>

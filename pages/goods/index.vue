@@ -340,7 +340,21 @@
 			},
 			change(){
 				
-			}
+			},
+			buy(){
+				if(JSON.stringify(this.selectedProduct) == '{}'){
+					this.toggleSpec()
+					return
+				}
+				console.log(this.selectedProduct)
+				let product = this.selectedProduct
+				product.goods_pic = escape(product.goods_pic)
+				product.goods_name = this.goods.name
+				let data = JSON.stringify({goodsData:product})
+				uni.navigateTo({
+					url: `/pages/order/createOrder?data=${data}`
+				})
+			},
 		}
 	}
 </script>
