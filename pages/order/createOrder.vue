@@ -1,15 +1,15 @@
 <template>
 	<view>
 		<!-- 地址 -->
-		<navigator url="/pages/address/address?source=1" class="address-section">
+		<navigator url="/pages/ucenter/address/address?source=1" class="address-section">
 			<view class="order-content">
 				<text class="yticon icon-shouhuodizhi"></text>
 				<view class="cen">
 					<view class="top">
-						<text class="name">{{addressData.name}}</text>
+						<text class="name">{{addressData.consignee}}</text>
 						<text class="mobile">{{addressData.mobile}}</text>
 					</view>
-					<text class="address">{{addressData.address}} {{addressData.area}}</text>
+					<text class="address">{{addressData.country}} {{addressData.province}} {{addressData.city}} {{addressData.district}} {{addressData.address}}</text>
 				</view>
 				<text class="yticon icon-you"></text>
 			</view>
@@ -136,14 +136,7 @@
 						price: 15,
 					}
 				],
-				addressData: {
-					name: '许小星',
-					mobile: '13853989563',
-					addressName: '金九大道',
-					address: '山东省济南市历城区',
-					area: '149号',
-					default: false,
-				},
+				addressData: {},
 				product: {}
 			}
 		},
@@ -156,6 +149,7 @@
 			let data = JSON.parse(option.data);
 			console.log(data);
 			this.product = data.goodsData
+			this.getAddressDefault()
 		},
 		methods: {
 			//显示优惠券面板
@@ -191,18 +185,35 @@
 							by_number:1,
 							goods_specification_value:product.goods_specification_value,
 							goods_specification_ids:product.goods_specification_ids,
+							list_pic_url: product.goods_pic
 							
 						}
-					]
+					],
+					address_id: this.addressData.id
 					}),
 					success: (res) => {
 						if (res.statusCode == 200 ){
 							uni.redirectTo({
-								url: '/pages/money/pay'
+								url: '/pages/money/pay' + `?price=${res.data.price}`
 							})
 						}else{
 							this.$checkHttpCode(res.statusCode)
 						}
+					}
+				})
+			},
+			getAddressDefault(){
+				uni.request({
+					url:this.api + "/user/address?is_default=1",
+					method:"GET",
+					header:{
+						'token': this.token,
+					},
+					success: (res) => {
+						if  (res.statusCode == 200 && res.data.length != 0 ){
+							this.addressData = res.data[0]
+						}
+						this.$checkHttpCode(res.statusCode)
 					}
 				})
 			},

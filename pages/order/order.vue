@@ -19,7 +19,7 @@
 					@scrolltolower="loadData"
 				>
 					<!-- 空白页 -->
-					<!-- <empty v-if="tabItem.loaded === true && tabItem.orderList.length === 0"></empty> -->
+					<empty v-if="tabItem.loaded === true && tabItem.orderList.length === 0"></empty>
 					
 					<!-- 订单列表 -->
 					<view 
@@ -27,7 +27,7 @@
 						class="order-item"
 					>
 						<view class="i-top b-b">
-							<text class="time">{{item.time}}</text>
+							<text class="time">{{item.order_sn}}</text>
 							<text class="state" :style="{color: item.stateTipColor}">{{item.stateTip}}</text>
 							<text 
 								v-if="item.state===9" 
@@ -36,32 +36,32 @@
 							></text>
 						</view>
 						
-						<scroll-view v-if="item.goodsList.length > 1" class="goods-box" scroll-x>
+						<scroll-view v-if="item.goods_list.length > 1" class="goods-box" scroll-x>
 							<view
-								v-for="(goodsItem, goodsIndex) in item.goodsList" :key="goodsIndex"
+								v-for="(goodsItem, goodsIndex) in item.goods_list" :key="goodsIndex"
 								class="goods-item"
 							>
-								<image class="goods-img" :src="goodsItem.image" mode="aspectFill"></image>
+								<image class="goods-img" :src="goodsItem.list_pic_url" mode="aspectFill"></image>
 							</view>
 						</scroll-view>
 						<view 
-							v-if="item.goodsList.length === 1" 
+							v-if="item.goods_list.length === 1" 
 							class="goods-box-single"
-							v-for="(goodsItem, goodsIndex) in item.goodsList" :key="goodsIndex"
+							v-for="(goodsItem, goodsIndex) in item.goods_list" :key="goodsIndex"
 						>
-							<image class="goods-img" :src="goodsItem.image" mode="aspectFill"></image>
+							<image class="goods-img" :src="goodsItem.list_pic_url" mode="aspectFill"></image>
 							<view class="right">
 								<text class="title clamp">{{goodsItem.title}}</text>
-								<text class="attr-box">{{goodsItem.attr}}  x {{goodsItem.number}}</text>
-								<text class="price">{{goodsItem.price}}</text>
+								<text class="attr-box">{{goodsItem.goods_specification_value}}  x {{goodsItem.number}}</text>
+								<text class="price">{{goodsItem.retail_price}}</text>
 							</view>
 						</view>
 						
 						<view class="price-box">
 							共
-							<text class="num">7</text>
+							<text class="num">{{item.goods_list.length}}</text>
 							件商品 实付款
-							<text class="price">143.7</text>
+							<text class="price">{{item.retail_price}}</text>
 						</view>
 						<view class="action-box b-t" v-if="item.state != 9">
 							<button class="action-btn" @click="cancelOrder(item)">取消订单</button>
@@ -79,41 +79,47 @@
 
 <script>
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
-	// import empty from "@/components/empty";
+	import empty from "@/components/empty";
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		components: {
 			uniLoadMore,
-			// empty
+			empty
+		},
+		computed:{
+			...mapState(['token'])
 		},
 		data() {
 			return {
 				tabCurrentIndex: 0,
 				navList: [{
-						state: 0,
+						order_status: 0,
 						text: '全部',
 						loadingType: 'more',
 						orderList: []
 					},
 					{
-						state: 1,
+						order_status: 1,
 						text: '待付款',
 						loadingType: 'more',
 						orderList: []
 					},
 					{
-						state: 2,
+						order_status: 2,
 						text: '待收货',
 						loadingType: 'more',
 						orderList: []
 					},
 					{
-						state: 3,
+						order_status: 3,
 						text: '待评价',
 						loadingType: 'more',
 						orderList: []
 					},
 					{
-						state: 4,
+						order_status: 4,
 						text: '售后',
 						loadingType: 'more',
 						orderList: []
@@ -128,6 +134,9 @@
 			 * 替换onLoad下代码即可
 			 */
 			this.tabCurrentIndex = +options.state;
+			if (options.state == undefined){
+				this.tabCurrentIndex = 0
+			}
 			// #ifndef MP
 			this.loadData()
 			// #endif
@@ -145,7 +154,7 @@
 				//这里是将订单挂载到tab列表下
 				let index = this.tabCurrentIndex;
 				let navItem = this.navList[index];
-				let state = navItem.state;
+				let order_status = navItem.order_status;
 				
 				if(source === 'tabChange' && navItem.loaded === true){
 					//tab切换只有第一次需要加载数据
@@ -155,19 +164,32 @@
 					//防止重复加载
 					return;
 				}
-				
+				let reqOrderList = []
 				navItem.loadingType = 'loading';
-				
+				uni.request({
+					url:this.api + "/user/order",
+					method:"GET",
+					header:{
+						'token': this.token,
+					},
+					success: (res) => {
+						if (res.statusCode == 200 ){
+							reqOrderList = res.data
+						}else{
+							this.$checkHttpCode(res.statusCode)
+						}
+					}
+				})
 				setTimeout(()=>{
-					let orderList = Json.orderList.filter(item=>{
+					let orderList = reqOrderList.filter(item=>{
 						//添加不同状态下订单的表现形式
-						item = Object.assign(item, this.orderStateExp(item.state));
+						item = Object.assign(item, this.orderStateExp(item.order_status));
 						//演示数据所以自己进行状态筛选
-						if(state === 0){
+						if(order_status === 0){
 							//0为全部订单
 							return item;
 						}
-						return item.state === state
+						return item.order_status === order_status
 					});
 					orderList.forEach(item=>{
 						navItem.orderList.push(item);
@@ -176,7 +198,7 @@
 					this.$set(navItem, 'loaded', true);
 					
 					//判断是否还有数据， 有改为 more， 没有改为noMore 
-					navItem.loadingType = 'more';
+					// navItem.loadingType = 'more';
 				}, 600);	
 			}, 
 
