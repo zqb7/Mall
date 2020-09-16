@@ -140,7 +140,7 @@
 			},
 			handleTap (picker) {
 				uni.request({
-					url:this.api + "/region" + `?parent_id=1`,
+					url:this.api + "/regionAll",
 					success: (res) => {
 						this.list = this.list.concat(res.data)
 					}
@@ -148,55 +148,6 @@
 				this.$refs[picker].show()
 			},
 			handleChange (item) {
-				let itemLength = item.index.length
-				let valueLength = item.value.length
-				let valueLast = 0
-				for(let i = 0,len=valueLength; i < len; i++) {
-					if (item.value[i] != 0){
-						valueLast = item.value[i]
-					}else{
-						break
-					}
-				}
-				switch (itemLength){
-					case 1:
-						if (this.list[item.index[0]].hasOwnProperty('child')){
-							return
-						}
-						break
-					case 2:
-						if (this.list[item.index[0]].hasOwnProperty('child')){
-							if (this.list[item.index[0]].child[item.index[1]].hasOwnProperty('child')){
-								return
-							}
-						}
-						break
-					case 3:
-						// 第三级 滚动不请求数据，直接返回
-						if (item.index[2] != 0){
-							return
-						}
-						break
-				}
-				uni.request({
-					url:this.api + "/region" + `?parent_id=${valueLast}`,
-					success: (res) => {
-						if (res.statusCode == 200 && res.data.length != 0 ){
-							switch (itemLength){
-								case 0:
-									break
-								case 1:
-									// this.list[item.index[0]].child = res.data
-									this.$set(this.list[item.index[0]],'child',res.data)
-									break
-								case 2:
-									// this.list[item.index[0]].child[item.index[1]].child = res.data
-									this.$set(this.list[item.index[0]].child[item.index[1]],'child',res.data)
-									break
-							}
-						}
-					}
-				})
 			},
 			handleConfirm (item) {
 				let valueLengthIndex = item.value.length -1
