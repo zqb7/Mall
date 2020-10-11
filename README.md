@@ -5,6 +5,10 @@
 css掌握不好，样式都是copy nideshop项目的  
 代码全部翻译于nideshop项目的！！！ [链接](https://github.com/tumobi/nideshop-mini-program)
 
+### 后端
+> 使用golang + gin + gorm 开发  
+链接: github.com/bzyy/gomall
+
 ### 项目截图
 
 ![首页](https://raw.githubusercontent.com/bzyy/mall/master/doc/首页.jpg)
